@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
-import Script from 'next/script'; // Se recomienda añadir scripts de terceros así
+import Script from 'next/script'; // Importante importar Script de next/script
 import CookieBanner from './CookieBanner';
 
 export default function Layout({ children, pageTitle, description }) {
@@ -19,27 +19,36 @@ export default function Layout({ children, pageTitle, description }) {
         <title>{title}</title>
         <meta name="description" content={description || 'Your personal guide to understanding skincare science and finding your unique style.'} />
         <link rel="icon" href="/favicon.ico" />
+
+        {/* --- 1. CÓDIGO DE GOOGLE TAG MANAGER PARA EL <HEAD> --- */}
+        <Script
+          id="google-tag-manager-head"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-N2GLWM2N');
+            `,
+            // ↑↑↑ REEMPLAZA 'GTM-N2GLWM2N' SI TU CÓDIGO CAMBIA ↑↑↑
+          }}
+        />
+        
       </Head>
       
-      {/* Puedes añadir aquí los scripts de Google Analytics si lo deseas */}
-      <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-SNZNSMHZBV"
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
+      {/* --- 2. CÓDIGO DE GOOGLE TAG MANAGER PARA EL <BODY> --- */}
+      <noscript
         dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-SNZNSMHZBV');
-          `,
+          __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2GLWM2N"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+          // ↑↑↑ REEMPLAZA 'GTM-N2GLWM2N' SI TU CÓDIGO CAMBIA ↑↑↑
         }}
       />
-
+      
       <header className="bg-white shadow-sm sticky top-0 z-20">
+        {/* ... el resto de tu código del header no cambia ... */}
         <div className="container mx-auto px-6 py-3 flex justify-between items-center">
           <Link href="/">
             <Image src="/images/logo.png" alt="Kiana's Skin Diary Logo" width={180} height={40} />
@@ -61,10 +70,8 @@ export default function Layout({ children, pageTitle, description }) {
           </div>
         </div>
 
-        {/* --- MENÚ DESPLEGABLE MÓVIL (CORREGIDO) --- */}
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t">
-            {/* Se quita la etiqueta <a> de dentro y se aplican las clases directamente al Link */}
             <Link href="/" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Home</Link>
             <Link href="/blog" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">About Kiana</Link>
             <Link href="/products" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Products</Link>
@@ -78,7 +85,7 @@ export default function Layout({ children, pageTitle, description }) {
       </main>
 
       <footer>
-          {/* ... tu footer se queda igual ... */}
+          {/* ... tu footer ... */}
       </footer>
 
       <CookieBanner /> 
