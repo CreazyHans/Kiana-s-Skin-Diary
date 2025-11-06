@@ -1,13 +1,14 @@
 // /components/Layout.js
 
-import { useState } from 'react'; // <-- 1. Importar useState
+import { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
+import Script from 'next/script'; // Se recomienda añadir scripts de terceros así
 import CookieBanner from './CookieBanner';
 
 export default function Layout({ children, pageTitle, description }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // <-- 2. Estado para controlar el menú móvil
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const siteTitle = "Kiana's Skin Diary";
   const title = pageTitle ? `${pageTitle} | ${siteTitle}` : `${siteTitle} - Your Guide to Skincare & Style`;
@@ -19,6 +20,24 @@ export default function Layout({ children, pageTitle, description }) {
         <meta name="description" content={description || 'Your personal guide to understanding skincare science and finding your unique style.'} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      {/* Puedes añadir aquí los scripts de Google Analytics si lo deseas */}
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-SNZNSMHZBV"
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-SNZNSMHZBV');
+          `,
+        }}
+      />
 
       <header className="bg-white shadow-sm sticky top-0 z-20">
         <div className="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -26,7 +45,6 @@ export default function Layout({ children, pageTitle, description }) {
             <Image src="/images/logo.png" alt="Kiana's Skin Diary Logo" width={180} height={40} />
           </Link>
           
-          {/* --- MENÚ PARA ESCRITORIO (md y superior) --- */}
           <nav className="hidden md:flex space-x-8 text-gray-600 font-medium">
             <Link href="/" className="hover:text-green-600">Home</Link>
             <Link href="/blog" className="hover:text-green-600">About Kiana</Link>
@@ -34,7 +52,6 @@ export default function Layout({ children, pageTitle, description }) {
             <Link href="/contacto" className="hover:text-green-600">Contact</Link>
           </nav>
 
-          {/* --- BOTÓN DE HAMBURGUESA (solo en móvil) --- */}
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,13 +61,14 @@ export default function Layout({ children, pageTitle, description }) {
           </div>
         </div>
 
-        {/* --- MENÚ DESPLEGABLE MÓVIL --- */}
+        {/* --- MENÚ DESPLEGABLE MÓVIL (CORREGIDO) --- */}
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t">
-            <Link href="/"><a className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Home</a></Link>
-            <Link href="/blog"><a className="block py-3 px-6 text-gray-600 hover:bg-gray-50">About Kiana</a></Link>
-            <Link href="/products"><a className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Products</a></Link>
-            <Link href="/contacto"><a className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Contact</a></Link>
+            {/* Se quita la etiqueta <a> de dentro y se aplican las clases directamente al Link */}
+            <Link href="/" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Home</Link>
+            <Link href="/blog" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">About Kiana</Link>
+            <Link href="/products" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Products</Link>
+            <Link href="/contacto" className="block py-3 px-6 text-gray-600 hover:bg-gray-50">Contact</Link>
           </div>
         )}
       </header>
