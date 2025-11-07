@@ -21,25 +21,24 @@ export default function Layout({ children, pageTitle, description }) {
       
       <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <Head>
-          <title>{title}</title>
-          <meta name="description" content={description || 'Your personal guide to understanding skincare science and finding your unique style.'} />
-          <link rel="icon" href="/favicon.ico" />
+  <title>{title}</title>
+  <meta name="description" content={description || 'Your personal guide to understanding skincare science and finding your unique style.'} />
+  <link rel="icon" href="/favicon.ico" />
 
-          {/* --- CÓDIGO <script> DE GTM PARA EL <HEAD> --- */}
-          <Script
-            id="google-tag-manager-head"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','GTM-N2GLWM2N');
-              `,
-            }}
-          />
-        </Head>
+  {/* GTM SCRIPT - DEBE ESTAR DIRECTO EN HEAD SIN STRATEGY */}
+  <script
+    dangerouslySetInnerHTML={{
+      __html: `
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-N2GLWM2N');
+      `,
+    }}
+  />
+</Head>
+
         
         <header className="bg-white shadow-sm sticky top-0 z-20">
           <div className="container mx-auto px-6 py-3 flex justify-between items-center">
