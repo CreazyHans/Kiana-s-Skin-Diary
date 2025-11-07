@@ -17,12 +17,7 @@ export default function Layout({ children, pageTitle, description }) {
     // Se usa un Fragment (<>) para asegurar que <noscript> sea lo primero
     <>
       {/* --- CÓDIGO <noscript> DE GTM, COLOCADO AL INICIO --- */}
-      <noscript
-        dangerouslySetInnerHTML={{
-          __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2GLWM2N"
-          height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
-        }}
-      />
+      
       
       <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <Head>
