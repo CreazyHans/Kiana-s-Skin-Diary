@@ -47,7 +47,7 @@ export default function PostPage({ post }) {
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
-  return { paths, fallback: false };
+  return { paths, fallback: 'blocking' };
 }
 
 export async function getStaticProps({ params }) {
