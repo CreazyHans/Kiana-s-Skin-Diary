@@ -76,9 +76,22 @@ export default function Layout({ children, pageTitle, description }) {
           {children}
         </main>
 
-        <footer>
-            {/* ... tu footer ... */}
-        </footer>
+        <footer className="bg-white border-t mt-8">
+  <div className="container mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
+    <p className="mb-4 md:mb-0 text-center md:text-left">
+      © {new Date().getFullYear()} Kiana's Skin Diary. All rights reserved.
+    </p>
+    <div className="flex space-x-4">
+      <Link href="/privacy-policy" className="hover:text-green-600 transition">
+        Privacy Policy
+      </Link>
+      <Link href="/terms-of-service" className="hover:text-green-600 transition">
+        Terms of Service
+      </Link>
+    </div>
+  </div>
+</footer>
+
 
         <CookieBanner /> 
       </div>
