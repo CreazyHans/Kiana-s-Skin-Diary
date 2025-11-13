@@ -51,13 +51,13 @@ export default function CookieBanner() {
             onClick={() => handleConsent('rejected')}
             className="bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-500 transition-colors"
           >
-            Rechazar
+            Decline
           </button>
           <button 
             onClick={() => handleConsent('accepted')}
             className="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-500 transition-colors"
           >
-            Aceptar
+            Accept
           </button>
         </div>
       </div>
