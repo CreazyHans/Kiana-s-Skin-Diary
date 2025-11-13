@@ -1,7 +1,7 @@
 // /pages/index.js
 import Layout from '../components/Layout';
-import PostCard from '../components/PostCard'; // Seguiremos usando el PostCard
-import { getCategoriesWithPosts } from '../lib/contentful'; // <-- Usamos la nueva función maestra
+import PostCard from '../components/PostCard';
+import { getCategoriesWithPosts } from '../lib/contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 export default function HomePage({ categoriesWithPosts }) {
@@ -16,9 +16,8 @@ export default function HomePage({ categoriesWithPosts }) {
         </p>
       </section>
 
-      {/* --- NUEVA SECCIÓN DE CONTENIDO DINÁMICO --- */}
       <div className="mt-16 space-y-16">
-        {categoriesWithPosts.map((category) => (
+        {categoriesWithPosts.map((category, categoryIndex) => (
           <section key={category.slug}>
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-800">{category.name}</h2>
@@ -27,8 +26,14 @@ export default function HomePage({ categoriesWithPosts }) {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {category.posts.map((post) => (
-                <PostCard key={post.slug} post={post} />
+              {category.posts.map((post, postIndex) => (
+                <PostCard
+                  key={post.slug}
+                  post={post}
+                  // 👇 ESTA ES LA LÍNEA MÁGICA 👇
+                  // Solo será 'true' para el primer post de la primera categoría
+                  isPriority={categoryIndex === 0 && postIndex === 0}
+                />
               ))}
             </div>
           </section>
