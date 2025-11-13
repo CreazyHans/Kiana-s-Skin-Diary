@@ -36,11 +36,11 @@ export default function CookieBanner() {
     <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 z-50 shadow-lg">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
         <p className="text-sm text-center md:text-left md:mr-4">
-          Utilizamos cookies para mejorar tu experiencia y para análisis. Lee nuestra{' '}
+          We use cookies to improve your experience and for analytics. Read our{' '}
           
           {/* CORRECCIÓN DE RUTA: Apuntando a la URL correcta */}
           <Link href="/privacy-policy" className="underline hover:text-green-400">
-            Política de Privacidad
+            Privacy Policy
           </Link>
           .
         </p>
