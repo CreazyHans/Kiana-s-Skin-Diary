@@ -14,9 +14,9 @@ export default function KianaPage() {
             <h1 className="text-4xl font-extrabold text-gray-800">Kiana Novak</h1>
             <p className="text-green-600 text-lg mt-1">Fashion & Style Representative</p>
             <p className="text-gray-600 mt-4">
-              "Welcome to Kiana's Skin Diary. 'Kiana Novak' is the embodiment of our brand's mission and aesthetic. This diary is written and edited by our team of skincare enthusiasts, dedicated to bringing you science-based advice..."
-              "Note: The image of Kiana is a visual representation created with AI to inspire and guide our content."
+              Welcome to Kiana's Skin Diary. 'Kiana Novak' is the embodiment of our brand's mission and aesthetic. This diary is written and edited by our team of skincare enthusiasts, dedicated to bringing you science-based advice.
             </p>
+            <p className='text-gray-600 mt-4'>Note: The image of Kiana is a visual representation created with AI to inspire and guide our content.</p>
             <a 
               href="https://www.facebook.com/profile.php?id=61582442575885" // <-- PON LA URL CORRECTA
               target="_blank"
