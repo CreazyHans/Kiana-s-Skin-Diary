@@ -14,7 +14,8 @@ export default function KianaPage() {
             <h1 className="text-4xl font-extrabold text-gray-800">Kiana Novak</h1>
             <p className="text-green-600 text-lg mt-1">Fashion & Style Representative</p>
             <p className="text-gray-600 mt-4">
-              Kiana is our resident fashion expert and style curator. With a keen eye for emerging trends and a passion for timeless style, Kiana brings a fresh and inspiring perspective to the world of fashion. Her mission is to help you discover your personal style and build a wardrobe that makes you feel confident and beautiful every day.
+              "Welcome to Kiana's Skin Diary. 'Kiana Novak' is the embodiment of our brand's mission and aesthetic. This diary is written and edited by our team of skincare enthusiasts, dedicated to bringing you science-based advice..."
+              "Note: The image of Kiana is a visual representation created with AI to inspire and guide our content."
             </p>
             <a 
               href="https://www.facebook.com/profile.php?id=61582442575885" // <-- PON LA URL CORRECTA
