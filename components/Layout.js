@@ -21,6 +21,8 @@ export default function Layout({ children, pageTitle, description }) {
       
       <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <Head>
+
+          <meta name="p:domain_verify" content="f5c9c92ffa7578915f50a52631296ba8"/>
   <title>{title}</title>
   <meta name="description" content={description || 'Your personal guide to understanding skincare science and finding your unique style.'} />
   <link rel="icon" href="/favicon.ico" />
