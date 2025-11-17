@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
-// PASO 1: Aceptamos la nueva propiedad 'isPriority' y le damos un valor por defecto.
 export default function PostCard({ post, isPriority = false }) {
   return (
     <Link href={`/posts/${post.slug}`} className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
@@ -13,12 +12,11 @@ export default function PostCard({ post, isPriority = false }) {
             <Image 
               src={post.cover_image} 
               alt={post.title || 'Post image'} 
-              layout="fill" 
-              objectFit="cover" 
+              fill // Prop 'fill' para que ocupe el contenedor
+              style={{ objectFit: 'cover' }} // Se usa 'style' para objectFit
               className="transition-transform duration-300 group-hover:scale-105"
-              // PASO 2: Le pasamos la propiedad 'priority' a la imagen.
-              // Solo será 'true' para el primer post de la página de inicio.
               priority={isPriority} 
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Ayuda al navegador a descargar el tamaño correcto de imagen
             />
           )}
         </div>

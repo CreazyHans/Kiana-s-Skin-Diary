@@ -5,10 +5,9 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="en"> {/* <-- ARREGLO APLICADO AQUÍ --> */}
         <Head />
         <body>
-          {/* --- GTM NO-SCRIPT DEBE IR AQUÍ (NO EN LAYOUT) --- */}
           <noscript>
             <iframe
               src="https://www.googletagmanager.com/ns.html?id=GTM-N2GLWM2N"
@@ -17,7 +16,6 @@ class MyDocument extends Document {
               style={{ display: 'none', visibility: 'hidden' }}
             ></iframe>
           </noscript>
-
           <Main />
           <NextScript />
         </body>
