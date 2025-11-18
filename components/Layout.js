@@ -55,6 +55,7 @@ export default function Layout({ children, pageTitle, description }) {
               <Link href="/blog" className="hover:text-green-600">About Kiana</Link>
               <Link href="/products" className="hover:text-green-600">Products</Link>
               <Link href="/contacto" className="hover:text-green-600">Contact</Link>
+              <Link href="/tools/routine-builder" className="text-pink-600 font-bold hover:text-green-600">Kiana's Tools</Link>
             </nav>
 
             <div className="md:hidden">
