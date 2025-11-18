@@ -32,7 +32,7 @@ const routinesDatabase = {
       title: "Beginner Routine for Anti-Aging",
       morning: ["Hydrating Cleanser", "Vitamin C Serum", "Moisturizer", "Sunscreen SPF 30+"],
       evening: ["Gentle Cleanser", "Hyaluronic Acid Serum", "Moisturizer"],
-      note: { text: "Protection is key for anti-aging. Start simple and be consistent. Check out our ", link: { href: "/posts/the-5-best-vitamin-c-serums-on-amazon-honest-2025-review", text: "favorite Vitamin C serums." } }
+      note: { text: "Protection is key for anti-aging. Start simple and be consistent. Check out our ", link: { href: "/posts/the-5-best-selling-vitamin-c-serums-on-amazon", text: "favorite Vitamin C serums." } }
     },
     intermediate: {
       title: "Intermediate Routine for Anti-Aging",
