@@ -4,13 +4,23 @@ import { useState } from 'react';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
 
-// --- COMPONENTE AUXILIAR PARA LAS TARJETAS (Puesto aquí para simplicidad) ---
+// --- COMPONENTE AUXILIAR MODIFICADO PARA PERMITIR DESMARCAR ---
 const OptionCard = ({ value, label, icon, selectedValue, onClick }) => {
   const isSelected = selectedValue === value;
+
+  const handleClick = () => {
+    // Si ya está seleccionado, lo deseleccionamos (pasando un string vacío).
+    // Si no, lo seleccionamos (pasando su valor).
+    if (isSelected) {
+      onClick('');
+    } else {
+      onClick(value);
+    }
+  };
   
   return (
     <button
-      onClick={() => onClick(value)}
+      onClick={handleClick}
       className={`flex-1 p-4 border rounded-lg text-center transition-all duration-200 ${
         isSelected
           ? 'bg-pink-500 text-white border-pink-500 shadow-lg scale-105'
@@ -74,11 +84,12 @@ export default function RoutineBuilderPage() {
             </div>
           </div>
 
-          {/* --- Pregunta 3: Nivel de Experiencia --- */}
+          {/* --- Pregunta 3: Nivel de Experiencia (MODIFICADA) --- */}
           <div>
             <label className="block text-lg font-semibold text-gray-700 mb-3 text-center">3. What's your experience level?</label>
             <div className="flex flex-wrap gap-4 justify-center">
               <OptionCard value="beginner" label="Beginner" icon="🌱" selectedValue={experience} onClick={setExperience} />
+              <OptionCard value="intermediate" label="Intermediate" icon="🧑‍🎓" selectedValue={experience} onClick={setExperience} />
               <OptionCard value="advanced" label="Advanced" icon="👩‍🔬" selectedValue={experience} onClick={setExperience} />
             </div>
           </div>
