@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
-import Script from 'next/script'; // Importamos el componente Script
+import Script from 'next/script';
 import CookieBanner from './CookieBanner';
 
 export default function Layout({ children, pageTitle, description }) {
@@ -12,22 +12,29 @@ export default function Layout({ children, pageTitle, description }) {
 
   const siteTitle = "Kiana's Skin Diary";
   const title = pageTitle ? `${pageTitle} | ${siteTitle}` : `${siteTitle} - Your Guide to Skincare & Style`;
+  const GA_MEASUREMENT_ID = 'G-SNZNSMHZBV'; // <-- TU ID DE MEDICIÓN CORRECTO
 
   return (
     <>
-      {/* --- EL SCRIPT DE GTM AHORA VA FUERA DEL DIV PRINCIPAL --- */}
+      {/* --- NUEVOS SCRIPTS DE CONEXIÓN DIRECTA A GOOGLE ANALYTICS 4 --- */}
       <Script
-        id="google-tag-manager"
         strategy="afterInteractive"
-      >
-        {`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-N2GLWM2N');
-        `}
-      </Script>
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
 
       <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <Head>
@@ -35,7 +42,6 @@ export default function Layout({ children, pageTitle, description }) {
           <title>{title}</title>
           <meta name="description" content={description || 'Your personal guide to understanding skincare science and finding your unique style.'} />
           <link rel="icon" href="/favicon.ico" />
-          {/* --- HEMOS ELIMINADO EL SCRIPT ANTIGUO DE AQUÍ --- */}
         </Head>
         
         <header className="bg-white shadow-sm sticky top-0 z-20">
