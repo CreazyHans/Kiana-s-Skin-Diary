@@ -8,11 +8,34 @@ import Script from 'next/script';
 import CookieBanner from './CookieBanner';
 import { useRouter } from 'next/router';
 
-// --- NUEVO COMPONENTE: MODAL DE BÚSQUEDA ---
-const SearchModal = ({ isOpen, onClose }) => {
+// --- COMPONENTE DEL MODAL DE BÚSQUEDA (CON LÓGICA FUNCIONAL) ---
+const SearchModal = ({ isOpen, onClose, allPosts }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+
+  // Este efecto se ejecuta cada vez que el usuario escribe en la barra de búsqueda
+  useEffect(() => {
+    // Solo buscamos si el término tiene más de 2 caracteres (para no buscar con 'a' o 'b')
+    if (searchTerm.length > 2) {
+      const searchResults = allPosts.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setResults(searchResults);
+    } else {
+      setResults([]); // Si el término es muy corto, vaciamos los resultados
+    }
+  }, [searchTerm, allPosts]);
+  
+  // Limpiamos la búsqueda cuando se cierra el modal
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchTerm('');
+      setResults([]);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
-  // Por ahora, es solo la interfaz. La lógica de búsqueda vendrá después.
   return (
     <div 
       className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-start z-50 pt-20 animate-fade-in-fast" 
@@ -26,22 +49,33 @@ const SearchModal = ({ isOpen, onClose }) => {
           type="text"
           placeholder="Search for articles, ingredients..."
           className="w-full p-4 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-pink-500"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           autoFocus
         />
         <div className="mt-4 max-h-80 overflow-y-auto">
-          {/* Aquí se mostrarán los resultados de la búsqueda */}
+          {results.length > 0 ? (
+            results.map(post => (
+              <Link key={post.slug} href={`/posts/${post.slug}`} className="block p-3 hover:bg-gray-100 rounded-md text-gray-800">
+                {post.title}
+              </Link>
+            ))
+          ) : (
+            searchTerm.length > 2 && <p className="text-gray-500 p-3">No results found for "{searchTerm}"</p>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default function Layout({ children, pageTitle, description }) {
+
+// --- COMPONENTE LAYOUT PRINCIPAL ---
+export default function Layout({ children, pageTitle, description, allPosts }) { // Recibimos 'allPosts' desde _app.js
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false); // Estado para el modal de búsqueda
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const router = useRouter();
 
-  // Cierra los modales al cambiar de ruta
   useEffect(() => {
     const handleRouteChange = () => {
       setIsMenuOpen(false);
@@ -98,17 +132,15 @@ export default function Layout({ children, pageTitle, description }) {
               <Link href="/" className="hover:text-green-600">Home</Link>
               <Link href="/blog" className="hover:text-green-600">About Kiana</Link>
               <Link href="/products" className="hover:text-green-600">Products</Link>
-              <Link href="/tools/routine-builder" className="text-green-600 font-bold hover:text-green-600">Kiana's Tools</Link>
+              <Link href="/tools/routine-builder" className="text-pink-600 font-bold hover:text-green-600">Kiana's Tools</Link>
               <Link href="/contacto" className="hover:text-green-600">Contact</Link>
-              {/* --- BOTÓN DE BÚSQUEDA (ESCRITORIO) --- */}
-              <button onClick={() => setIsSearchOpen(true)} aria-label="Open search" className="text-green-600 hover:text-green-600">
+              <button onClick={() => setIsSearchOpen(true)} aria-label="Open search" className="text-gray-600 hover:text-pink-600">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </button>
             </nav>
 
-            {/* --- ICONOS MÓVILES (BÚSQUEDA Y MENÚ) --- */}
             <div className="md:hidden flex items-center space-x-4 z-50">
-              <button onClick={() => setIsSearchOpen(true)} aria-label="Open search" className="text-gray-600 hover:text-green-600">
+               <button onClick={() => setIsSearchOpen(true)} aria-label="Open search" className="text-gray-600 hover:text-pink-600">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </button>
               <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" className="w-8 h-8 flex flex-col justify-center items-center">
@@ -120,18 +152,16 @@ export default function Layout({ children, pageTitle, description }) {
           </div>
         </header>
 
-        {/* --- MENÚ MÓVIL DESLIZANTE --- */}
         <div className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-30 transform transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
             <div className="pt-24 px-6 space-y-4">
               <Link href="/" className="block py-2 text-lg text-gray-700 hover:text-green-600">Home</Link>
               <Link href="/blog" className="block py-2 text-lg text-gray-700 hover:text-green-600">About Kiana</Link>
               <Link href="/products" className="block py-2 text-lg text-gray-700 hover:text-green-600">Products</Link>
-              <Link href="/tools/routine-builder" className="block py-2 text-lg text-green-600 font-bold">Kiana's Tools</Link>
+              <Link href="/tools/routine-builder" className="block py-2 text-gray-700 hover:text-green-600 font-bold">Kiana's Tools</Link>
               <Link href="/contacto" className="block py-2 text-lg text-gray-700 hover:text-green-600">Contact</Link>
             </div>
         </div>
 
-        {/* --- CAPA OSCURA DE FONDO (OVERLAY) PARA EL MENÚ --- */}
         {isMenuOpen && <div className="fixed inset-0 bg-black opacity-50 z-20 md:hidden" onClick={() => setIsMenuOpen(false)}></div>}
         
         <main className="flex-grow container mx-auto px-6 py-8">
@@ -156,8 +186,7 @@ export default function Layout({ children, pageTitle, description }) {
 
         <CookieBanner /> 
         
-        {/* --- RENDERIZAMOS EL MODAL DE BÚSQUEDA --- */}
-        <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+        <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} allPosts={allPosts} />
       </div>
     </>
   );
