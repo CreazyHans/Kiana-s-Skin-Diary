@@ -6,7 +6,6 @@ import Layout from '../../components/Layout';
 import Image from 'next/image';
 import Head from 'next/head';
 
-// --- IMPORTACIONES ADICIONALES PARA LA TABLA RESPONSIVA ---
 import { BLOCKS } from '@contentful/rich-text-types';
 import ResponsiveTable from '../../components/ResponsiveTable';
 
@@ -24,12 +23,9 @@ export default function PostPage({ post }) {
 
   const plainExcerpt = getPlainText(post.excerpt);
 
-  // --- NUEVA LÓGICA DE RENDERIZADO ---
   const renderOptions = {
     renderNode: {
-      // Le decimos que para cada nodo del tipo TABLA...
       [BLOCKS.TABLE]: (node, children) => (
-        // ...use nuestro componente ResponsiveTable
         <ResponsiveTable>{children}</ResponsiveTable>
       ),
     },
@@ -64,7 +60,6 @@ export default function PostPage({ post }) {
         )}
 
         <div className="prose prose-lg max-w-none prose-pink">
-          {/* --- PASAMOS LAS OPCIONES DE RENDERIZADO AQUÍ --- */}
           {documentToReactComponents(post.content, renderOptions)}
         </div>
       </article>
@@ -78,7 +73,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getPost-Data(params.slug);
+  // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+  const post = await getPostData(params.slug); 
   return {
     props: { post },
     revalidate: 60,
