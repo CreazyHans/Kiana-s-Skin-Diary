@@ -83,9 +83,10 @@ export default function Layout({ children, pageTitle, description }) {
               <Link href="/contacto" className="hover:text-green-600">Contact</Link>
 
               {/* 🔍 BARRA DE BÚSQUEDA */}
-              <div className="ml-4 w-64">
-                <SearchBar />
-              </div>
+              <div className="px-6 pt-4">
+  <SearchBar />
+</div>
+
             </nav>
 
             {/* Botón menú móvil */}
