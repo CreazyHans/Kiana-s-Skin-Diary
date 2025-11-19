@@ -98,7 +98,7 @@ export default function Layout({ children, pageTitle, description, allPosts }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}', {
+            gtag('config', 'G-SNZNSMHZBV', {
               page_path: window.location.pathname,
             });
           `,
