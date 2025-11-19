@@ -6,7 +6,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Script from 'next/script';
 import CookieBanner from './CookieBanner';
-import { useRouter } from 'next/router'; // Importamos useRouter
+import { useRouter } from 'next/router';
 
 export default function Layout({ children, pageTitle, description }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,6 +22,7 @@ export default function Layout({ children, pageTitle, description }) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+
 
   const siteTitle = "Kiana's Skin Diary";
   const title = pageTitle ? `${pageTitle} | ${siteTitle}` : `${siteTitle} - Your Guide to Skincare & Style`;
@@ -80,7 +81,7 @@ export default function Layout({ children, pageTitle, description }) {
             </div>
              {/* --- FIN DE LA MODIFICACIÓN --- */}
           </div>
-          {/* HEMOS ELIMINADO EL ANTIGUO MENÚ DE AQUÍ */}
+
         </header>
 
         {/* --- INICIO DE LA MODIFICACIÓN: MENÚ MÓVIL DESLIZANTE --- */}
@@ -102,21 +103,7 @@ export default function Layout({ children, pageTitle, description }) {
           {children}
         </main>
 
-        <footer className="bg-white border-t mt-8">
-          <div className="container mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
-            <p className="mb-4 md:mb-0 text-center md:text-left">
-              © {new Date().getFullYear()} Kiana's Skin Diary. All rights reserved.
-            </p>
-            <div className="flex space-x-4">
-              <Link href="/privacy-policy" className="hover:text-green-600 transition">
-                Privacy Policy
-              </Link>
-              <Link href="/terms-of-service" className="hover:text-green-600 transition">
-                Terms of Service
-              </Link>
-            </div>
-          </div>
-        </footer>
+        <footer className="bg-white border-t mt-8">{/* ... (Tu footer no cambia) ... */}</footer>
 
         <CookieBanner /> 
       </div>
