@@ -1,33 +1,31 @@
-// /components/SearchBar.js
+"use client";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const router = useRouter();
 
-  const handleSearch = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
-    router.push(`/search?query=${query}`);
+    window.location.href = `/search?query=${query}`;
   };
 
   return (
     <form
-      onSubmit={handleSearch}
-      className="w-full max-w-lg mx-auto flex items-center space-x-2 bg-white shadow-sm rounded-full px-4 py-2 border border-gray-200"
+      onSubmit={handleSubmit}
+      className="flex w-full max-w-[420px] bg-white rounded-full border px-3 py-1 shadow-sm"
     >
       <input
         type="text"
-        className="flex-grow px-3 py-2 text-sm md:text-base outline-none bg-transparent"
-        placeholder="Search skincare tips, products, routines..."
+        placeholder="Search skincare tips, product…"
+        className="flex-1 outline-none text-sm"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
 
       <button
         type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded-full text-sm md:text-base hover:bg-green-700 transition"
+        className="ml-2 px-4 py-1 rounded-full bg-green-500 text-white text-sm"
       >
         Search
       </button>
