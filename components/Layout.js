@@ -117,9 +117,10 @@ export default function Layout({ children, pageTitle, description }) {
             <Link href="/contacto" className="block py-2 text-lg text-gray-700 hover:text-green-600">Contact</Link>
 
             {/* 🔍 Búsqueda en móvil */}
-            <div className="pt-4">
-              <SearchBar />
-            </div>
+            <div className="pt-4 w-full">
+  <SearchBar mobile />
+</div>
+
           </div>
 
         </div>
