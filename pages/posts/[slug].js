@@ -6,12 +6,15 @@ import Layout from '../../components/Layout';
 import Image from 'next/image';
 import Head from 'next/head';
 
+// --- IMPORTACIONES ADICIONALES PARA LA TABLA RESPONSIVA ---
+import { BLOCKS } from '@contentful/rich-text-types';
+import ResponsiveTable from '../../components/ResponsiveTable';
+
 export default function PostPage({ post }) {
   if (!post) {
     return <Layout><h1>Post not found!</h1></Layout>;
   }
 
-  // Convert excerpt (Rich Text) to plain text for SEO meta tags
   const getPlainText = (richText) => {
     if (!richText || !richText.content) return '';
     return richText.content.map(block =>
@@ -20,6 +23,17 @@ export default function PostPage({ post }) {
   };
 
   const plainExcerpt = getPlainText(post.excerpt);
+
+  // --- NUEVA LÓGICA DE RENDERIZADO ---
+  const renderOptions = {
+    renderNode: {
+      // Le decimos que para cada nodo del tipo TABLA...
+      [BLOCKS.TABLE]: (node, children) => (
+        // ...use nuestro componente ResponsiveTable
+        <ResponsiveTable>{children}</ResponsiveTable>
+      ),
+    },
+  };
 
   return (
     <Layout pageTitle={post.title} description={plainExcerpt}>
@@ -50,7 +64,8 @@ export default function PostPage({ post }) {
         )}
 
         <div className="prose prose-lg max-w-none prose-pink">
-          {documentToReactComponents(post.content)}
+          {/* --- PASAMOS LAS OPCIONES DE RENDERIZADO AQUÍ --- */}
+          {documentToReactComponents(post.content, renderOptions)}
         </div>
       </article>
     </Layout>
@@ -63,7 +78,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getPostData(params.slug);
+  const post = await getPost-Data(params.slug);
   return {
     props: { post },
     revalidate: 60,
