@@ -60,95 +60,137 @@ export default function Layout({ children, pageTitle, description }) {
         </Head>
 
         {/* ===== HEADER ===== */}
-        <header className="bg-white/60 backdrop-blur-md border-b sticky top-0 z-40 shadow-sm">
-          <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+<header className="bg-white/70 backdrop-blur-xl border-b sticky top-0 z-40 shadow-sm">
+  <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
 
-            {/* Logo */}
-            <Link href="/">
-              <a className="inline-flex items-center transform hover:scale-105 transition-transform duration-300">
-                <Image
-                  src="/images/logo.png"
-                  alt="Kiana's Skin Diary Logo"
-                  width={180}
-                  height={40}
-                  className="object-contain"
-                />
-              </a>
-            </Link>
+    {/* Logo */}
+    <Link href="/">
+      <a className="inline-flex items-center transform hover:scale-105 transition-transform duration-300">
+        <Image
+          src="/images/logo.png"
+          alt="Kiana's Skin Diary Logo"
+          width={180}
+          height={40}
+          className="object-contain"
+        />
+      </a>
+    </Link>
 
-            {/* Desktop links + search */}
-            <div className="hidden md:flex items-center space-x-8">
-              <nav className="flex items-center space-x-6 font-medium">
-                {navLinks.map((link, idx) => (
-                  <Link key={idx} href={link.href}>
-                    <a className="relative text-gray-700 hover:text-green-600 transition-colors duration-300 group">
-                      {link.name}
-                      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-green-600 transition-all group-hover:w-full"></span>
-                    </a>
-                  </Link>
-                ))}
-              </nav>
+    {/* Desktop links + search */}
+    <div className="hidden md:flex items-center space-x-8">
+      <nav className="flex items-center gap-3 font-medium list-none">
+        {navLinks.map((link, idx) => (
+          <Link key={idx} href={link.href}>
+            <a
+              className="
+                px-4 py-2 rounded-full
+                bg-white/60 backdrop-blur-sm
+                border border-gray-200
+                shadow-sm
+                text-gray-700
+                hover:bg-green-500 hover:text-white hover:border-green-500
+                transition-all duration-300
+              "
+            >
+              {link.name}
+            </a>
+          </Link>
+        ))}
+      </nav>
 
-              <div className="w-[300px]">
-                <SearchBar />
-              </div>
-            </div>
+      <div className="w-[300px]">
+        <SearchBar />
+      </div>
+    </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(true)}
-                aria-label="Open menu"
-                className="p-2 rounded-md bg-white/70 border border-gray-200 shadow-sm"
-              >
-                <span className="block w-5 h-[2px] bg-gray-700 mb-1" />
-                <span className="block w-5 h-[2px] bg-gray-700 mb-1" />
-                <span className="block w-5 h-[2px] bg-gray-700" />
-              </button>
-            </div>
-          </div>
-        </header>
+    {/* Mobile menu button */}
+    <div className="md:hidden">
+      <button
+        onClick={() => setIsMenuOpen(true)}
+        aria-label="Open menu"
+        className="p-2 rounded-md bg-white/70 border border-gray-200 shadow-sm"
+      >
+        <span className="block w-5 h-[2px] bg-gray-700 mb-1" />
+        <span className="block w-5 h-[2px] bg-gray-700 mb-1" />
+        <span className="block w-5 h-[2px] bg-gray-700" />
+      </button>
+    </div>
+
+  </div>
+</header>
+
 
         {/* ===== MOBILE SIDEBAR ===== */}
-        <div
-          className={`fixed inset-y-0 left-0 z-40 transform bg-white shadow-xl w-72 transition-transform duration-300 md:hidden
-            ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-          aria-hidden={!isMenuOpen}
-        >
-          <div className="p-6 pt-8 flex flex-col h-full">
-            <div className="flex justify-between items-center mb-6">
-              <Link href="/">
-                <a onClick={() => setIsMenuOpen(false)}>
-                  <Image src="/images/logo.png" alt="Logo" width={140} height={34} />
-                </a>
-              </Link>
-              <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu" className="text-gray-700 text-lg">✕</button>
-            </div>
+<div
+  className={`fixed inset-y-0 left-0 z-50 transform 
+    bg-white/70 backdrop-blur-xl shadow-2xl w-72 
+    transition-transform duration-300 md:hidden
+    ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+  aria-hidden={!isMenuOpen}
+>
+  <div className="p-6 pt-8 flex flex-col h-full">
 
-            <nav className="flex flex-col gap-4 text-lg text-gray-700">
-              {navLinks.map((link, idx) => (
-                <Link key={idx} href={link.href}>
-                  <a onClick={() => setIsMenuOpen(false)} className="py-2 border-b hover:text-green-600 transition">{link.name}</a>
-                </Link>
-              ))}
-            </nav>
+    {/* Logo + Close */}
+    <div className="flex justify-between items-center mb-8">
+      <Link href="/">
+        <a onClick={() => setIsMenuOpen(false)}>
+          <Image src="/images/logo.png" alt="Logo" width={140} height={34} />
+        </a>
+      </Link>
 
-            <div className="mt-6">
-              <SearchBar />
-            </div>
+      <button
+        onClick={() => setIsMenuOpen(false)}
+        aria-label="Close menu"
+        className="text-gray-700 text-2xl hover:text-green-600 transition"
+      >
+        ✕
+      </button>
+    </div>
 
-            <div className="mt-auto text-sm text-gray-500">
-              © {new Date().getFullYear()} Kiana's Skin Diary
-            </div>
-          </div>
-        </div>
+    {/* Navigation Links */}
+    <nav className="flex flex-col gap-4 text-lg font-medium">
+      {navLinks.map((link, idx) => (
+        <Link key={idx} href={link.href}>
+          <a
+            onClick={() => setIsMenuOpen(false)}
+            className="
+              px-4 py-2 rounded-xl
+              bg-white/80 backdrop-blur
+              border border-gray-200
+              shadow-sm
+              text-gray-700
+              hover:bg-green-500 hover:text-white hover:border-green-500
+              transition-all duration-300
+            "
+          >
+            {link.name}
+          </a>
+        </Link>
+      ))}
+    </nav>
+
+    {/* Search */}
+    <div className="mt-6">
+      <SearchBar />
+    </div>
+
+    {/* Footer */}
+    <div className="mt-auto text-sm text-gray-600 text-center pb-4">
+      © {new Date().getFullYear()} Kiana's Skin Diary
+    </div>
+
+  </div>
+</div>
+
 
         {/* Overlay for mobile */}
         {isMenuOpen && (
           <div
-            className="fixed inset-0 bg-black/40 z-30 md:hidden"
-            onClick={() => setIsMenuOpen(false)}
-          />
+  className="fixed inset-0 z-30 md:hidden 
+ bg-black/30 backdrop-blur-sm transition-opacity duration-300"
+  onClick={() => setIsMenuOpen(false)}
+/>
+
         )}
 
         {/* ===== MAIN CONTENT ===== */}
@@ -157,24 +199,57 @@ export default function Layout({ children, pageTitle, description }) {
         </main>
 
         {/* ===== FOOTER ===== */}
-        <footer className="bg-gray-100 border-t mt-8 py-6">
-          <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm space-y-4 md:space-y-0">
-            <p>© {new Date().getFullYear()} Kiana's Skin Diary. All rights reserved.</p>
-            <div className="flex space-x-4">
-              {/* --- SECCIÓN DE ICONOS SOCIALES --- */}
-      <div className="flex items-center space-x-6">
-        <a href="http://www.youtube.com/@KianasSkinDiary" target="_blank" rel="noopener noreferrer" aria-label="Kiana's Skin Diary on YouTube" className="text-gray-500 hover:text-red-600 transition-colors">
-          <FaYoutube size={24} />
-        </a>
-        <a href="https://www.facebook.com/share/1H6e8YY48n/" target="_blank" rel="noopener noreferrer" aria-label="Kiana's Skin Diary on Facebook" className="text-gray-500 hover:text-blue-600 transition-colors">
-          <FaFacebook size={24} />
-        </a>
+        <footer className="mt-12 bg-white/60 backdrop-blur-lg border-t border-gray-200">
+  <div className="container mx-auto px-6 py-8">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+
+      {/* Texto de copyright */}
+      <p className="text-gray-600 text-sm">
+        © {new Date().getFullYear()} Kiana's Skin Diary — All rights reserved.
+      </p>
+
+      {/* Links + Social */}
+      <div className="flex flex-col md:flex-row items-center gap-6">
+
+        {/* Redes sociales */}
+        <div className="flex items-center gap-5">
+          <a 
+            href="http://www.youtube.com/@KianasSkinDiary"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-red-600 transition-colors transform hover:scale-110"
+          >
+            <FaYoutube size={26} />
+          </a>
+          <a 
+            href="https://www.facebook.com/share/1H6e8YY48n/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-blue-600 transition-colors transform hover:scale-110"
+          >
+            <FaFacebook size={26} />
+          </a>
+        </div>
+
+        {/* Links legales */}
+        <div className="flex items-center gap-5 text-sm font-medium">
+          <Link href="/privacy-policy">
+            <a className="text-gray-600 hover:text-green-600 transition-colors">
+              Privacy Policy
+            </a>
+          </Link>
+
+          <Link href="/terms-of-service">
+            <a className="text-gray-600 hover:text-green-600 transition-colors">
+              Terms of Service
+            </a>
+          </Link>
+        </div>
       </div>
-              <Link href="/privacy-policy"><a className="hover:text-green-600 transition">Privacy Policy</a></Link>
-              <Link href="/terms-of-service"><a className="hover:text-green-600 transition">Terms of Service</a></Link>
-            </div>
-          </div>
-        </footer>
+    </div>
+  </div>
+</footer>
+
 
         <CookieBanner />
       </div>
