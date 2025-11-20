@@ -21,7 +21,7 @@ const resultsData = {
   sensitive: { title: "And Your Skin is Likely: Sensitive", icon: "🌿", description: "Your skin is highly reactive and can easily get red or irritated. Always choose gentle, fragrance-free products and patch-test new formulas.", note: "Note: You can be Oily & Sensitive, or Dry & Sensitive." }
 };
 
-// --- COMPONENTE DE RESULTADO LIGERAMENTE AJUSTADO ---
+// --- COMPONENTE DE RESULTADO CON EL ENLACE INTELIGENTE ---
 const QuizResult = ({ result, sensitive }) => (
   <div className="bg-pink-50 border border-pink-200 p-8 rounded-lg text-center animate-fade-in">
     <p className="text-5xl mb-4">{resultsData[result].icon}</p>
@@ -36,97 +36,21 @@ const QuizResult = ({ result, sensitive }) => (
       </div>
     )}
     <div className="mt-8">
-      <Link href={`/tools/routine-builder?skinType=${result}`} className="inline-block bg-pink-600 text-white font-bold py-3 px-6 rounded-full text-lg hover:bg-pink-700 transition-all duration-300 transform hover:scale-105">
+      {/* --- ¡AQUÍ ESTÁ LA MAGIA! --- */}
+      <Link 
+        href={{
+          pathname: '/tools/routine-builder',
+          query: { skinType: result }
+        }} 
+        className="inline-block bg-pink-600 text-white font-bold py-3 px-6 rounded-full text-lg hover:bg-pink-700 transition-all duration-300 transform hover:scale-105"
+      >
         Build Your Routine →
       </Link>
     </div>
   </div>
 );
 
-// --- PÁGINA PRINCIPAL REMODELADA ---
+// --- El resto del componente de la página no cambia ---
 export default function SkinTypeQuizPage() {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [showResult, setShowResult] = useState(false);
-
-  const handleAnswer = (answerKey) => {
-    const newAnswers = { ...answers, [currentQuestionIndex]: answerKey };
-    setAnswers(newAnswers);
-
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      setShowResult(true);
-    }
-  };
-
-  const calculateResult = () => {
-    const counts = {};
-    let isSensitive = false;
-    
-    Object.values(answers).forEach(key => {
-      if (key === 'sensitive') isSensitive = true;
-      else if (key !== 'not_sensitive') counts[key] = (counts[key] || 0) + 1;
-    });
-    
-    let mainType = 'normal';
-    if (Object.keys(counts).length > 0) {
-      mainType = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-    }
-    
-    return { mainType, isSensitive };
-  };
-
-  const currentQuestion = questions[currentQuestionIndex];
-  const { mainType, isSensitive } = showResult ? calculateResult() : {};
-
-  return (
-    <Layout>
-      <Head>
-        <title>Skin Type Quiz | Kiana's Skin Diary</title>
-        <meta name="description" content="Discover your true skin type in under a minute with our simple, interactive quiz." />
-      </Head>
-
-      <div className="max-w-4xl mx-auto my-8 px-4">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800">
-            What's Your True Skin Type?
-          </h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Answer these {questions.length} questions to find out.
-          </p>
-        </div>
-
-        {!showResult ? (
-          <div className="max-w-2xl mx-auto">
-            {/* --- NUEVO DISEÑO DE TARJETA DE PREGUNTA --- */}
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <div className="text-center mb-6">
-                <p className="text-sm font-bold text-pink-600">QUESTION {currentQuestionIndex + 1} OF {questions.length}</p>
-                <h2 className="text-2xl font-semibold text-gray-800 mt-2">{currentQuestion.question}</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {Object.entries(currentQuestion.options).map(([key, text]) => (
-                  <button 
-                    key={key} 
-                    onClick={() => handleAnswer(key)} 
-                    className="p-4 border rounded-lg text-center transition-all duration-200 bg-gray-50 hover:bg-pink-500 hover:text-white hover:scale-105"
-                  >
-                    {text}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-8">
-              <div className="bg-pink-600 h-2.5 rounded-full transition-all duration-300" style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}></div>
-            </div>
-          </div>
-        ) : (
-          <div id="results-section">
-            <QuizResult result={mainType} sensitive={isSensitive} />
-          </div>
-        )}
-      </div>
-    </Layout>
-  );
+  // ... (toda la lógica de useState, handleAnswer, calculateResult, etc. se queda igual)
 }

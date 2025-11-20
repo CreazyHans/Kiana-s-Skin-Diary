@@ -26,9 +26,9 @@ export default function Layout({ children, pageTitle, description }) {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'About Kiana', href: '/blog' },
+    { name: 'About', href: '/blog' },
     { name: 'Products', href: '/products' },
-    { name: "Kiana's Tools", href: '/tools/' },
+    { name: "Tools", href: '/tools/' },
     { name: 'Contact', href: '/contacto' },
   ];
 
