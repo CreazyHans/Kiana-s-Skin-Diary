@@ -78,8 +78,7 @@ export default function Layout({ children, pageTitle, description }) {
 
     {/* Desktop links + search */}
     <div className="hidden md:flex items-center space-x-8">
-  <nav className="flex items-center space-x-4 font-medium list-none 
-                  flex-wrap flex-shrink max-w-full">
+  <nav className="flex items-center space-x-6 font-medium list-none">
     {navLinks.map((link, idx) => (
       <Link key={idx} href={link.href}>
         <a

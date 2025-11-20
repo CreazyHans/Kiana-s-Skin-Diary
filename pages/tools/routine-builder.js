@@ -129,7 +129,9 @@ const OptionCard = ({ value, label, icon, selectedValue, onClick }) => {
   return (
     <button
       onClick={handleClick}
-      className={`p-4 border rounded-lg text-center transition-all duration-200 flex flex-col items-center justify-center h-full ${
+      // --- INICIO DE LA MODIFICACIÓN ---
+      className={`p-4 border rounded-lg text-center transition-all duration-200 flex flex-col items-center justify-between h-full min-h-[120px] ${
+      // --- FIN DE LA MODIFICACIÓN ---
         isSelected
           ? 'bg-pink-500 text-white border-pink-500 shadow-lg scale-105'
           : 'bg-white hover:bg-pink-50 hover:shadow-md'
