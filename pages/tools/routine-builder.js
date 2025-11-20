@@ -5,7 +5,7 @@ import Layout from '../../components/Layout';
 import Head from 'next/head';
 import Link from 'next/link';
 
-// --- BASE DE DATOS COMPLETA DE RUTINAS ---
+// --- BASE DE DATOS COMPLETA DE RUTINAS (CON ENLACES CORREGIDOS) ---
 const routinesDatabase = {
   acne: {
     beginner: {
@@ -44,7 +44,7 @@ const routinesDatabase = {
       title: "Advanced Routine for Anti-Aging",
       morning: ["Hydrating Cleanser", "Vitamin C Serum", "Peptide Serum", "Moisturizer", "Sunscreen SPF 50+"],
       evening: ["Oil Cleanser", "Gentle Cleanser", "Retinal or Tretinoin", "Rich Moisturizer"],
-      note: { text: "Advanced routines layer multiple actives for maximum efficacy. Discover more in our ", link: { href: "/posts/the-5-best-anti-aging-serums-of-2025-picks-that-actually-work", text: "guide to the best anti-aging serums." } }
+      note: { text: "Advanced routines layer multiple actives for maximum efficacy. Discover more in our ", link: { href: "/posts/best-anti-aging-serums-for-2025-top-ingredients-that-really-work", text: "guide to the best anti-aging serums." } }
     }
   },
   hyperpigmentation: {
@@ -52,13 +52,13 @@ const routinesDatabase = {
       title: "Beginner Routine for Dark Spots",
       morning: ["Gentle Cleanser", "Vitamin C Serum", "Moisturizer", "Sunscreen SPF 50+"],
       evening: ["Gentle Cleanser", "Niacinamide Serum", "Moisturizer"],
-      note: { text: "Sunscreen is your #1 weapon against dark spots. Learn about other ingredients in our ", link: { href: "/posts/your-definitive-guide-to-fading-dark-spots-hyperpigmentation-2025", text: "complete guide to hyperpigmentation." } }
+      note: { text: "Sunscreen is your #1 weapon against dark spots. Learn about other ingredients in our ", link: { href: "/posts/how-to-fade-dark-spots-and-hyperpigmentation", text: "complete guide to hyperpigmentation." } }
     },
     intermediate: {
       title: "Intermediate Routine for Dark Spots",
       morning: ["Gentle Cleanser", "Vitamin C Serum", "Moisturizer", "Sunscreen SPF 50+"],
       evening: ["Oil Cleanser", "Gentle Cleanser", "Glycolic Acid (2-3 times a week)", "Niacinamide Serum", "Moisturizer"],
-      note: { text: "Adding an exfoliant like Glycolic Acid will speed up results. Learn more in our ", link: { href: "/posts/glycolic-acid-your-ultimate-guide-to-brighter-smoother-complexion", text: "Glycolic Acid guide." } }
+      note: { text: "Adding an exfoliant like Glycolic Acid will speed up results. Learn more in our ", link: { href: "/posts/glycolic-acid-your-guide-to-a-brighter-smoother-complexion", text: "Glycolic Acid guide." } }
     },
     advanced: {
       title: "Advanced Routine for Dark Spots",
@@ -84,12 +84,11 @@ const routinesDatabase = {
       title: "Advanced Routine for Hydration",
       morning: ["Milky Cleanser", "Hyaluronic Acid Serum", "Moisturizer", "Sunscreen SPF 30+"],
       evening: ["Oil Cleanser", "Milky Cleanser", "Hyaluronic Acid Serum", "Peptide Serum", "Facial Oil or Sleeping Mask"],
-      note: { text: "Sealing everything in with an occlusive layer at night is a pro move for maximum hydration. But is your skin dry or dehydrated? Find out in our ", link: { href: "/posts/dry-vs-dehydrated-skin-finally-understand-the-difference", text: "guide here." } }
+      note: { text: "Sealing everything in with an occlusive layer is a pro move for max hydration. But is your skin dry or dehydrated? Find out in our ", link: { href: "/posts/dry-vs-dehydrated-skin-whats-the-difference-and-how-to-treat-it", text: "guide here." } }
     }
   }
 };
 
-// --- COMPONENTES DE UI ---
 const RoutineResult = ({ routine }) => (
   <div className="bg-pink-50 border border-pink-200 p-6 rounded-lg animate-fade-in">
     <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">{routine.title}</h2>
@@ -119,22 +118,21 @@ const InitialStateCard = () => (
 const NoResultCard = () => (
   <div className="bg-yellow-50 border border-yellow-300 p-8 rounded-lg text-center animate-fade-in">
     <p className="text-xl font-semibold text-yellow-800">🚧 Combination Under Construction!</p>
-    <p className="mt-2 text-gray-600">We don't have a specific pre-built routine for this exact combination yet, but we're working on it! For now, we recommend starting with our <Link href="/posts/the-ultimate-beginners-skincare-routine-a-simple-3-step-guide" className="font-bold text-pink-600 underline">Beginner's Guide</Link> to build a solid foundation.</p>
+    <p className="mt-2 text-gray-600">We don't have a specific pre-built routine for this exact combination yet, but we're working on it! For now, we recommend starting with our <Link href="/posts/building-your-first-skincare-routine-a-simple-3-step-guide" className="font-bold text-pink-600 underline">Beginner's Guide</Link> to build a solid foundation.</p>
   </div>
 );
 
 const OptionCard = ({ value, label, icon, selectedValue, onClick }) => {
   const isSelected = selectedValue === value;
   const handleClick = () => isSelected ? onClick('') : onClick(value);
-  return (<button onClick={handleClick} className={`flex-1 p-4 border rounded-lg text-center transition-all duration-200 ${isSelected ? 'bg-pink-500 text-white border-pink-500 shadow-lg scale-105' : 'bg-white hover:bg-pink-50'}`}><span className="text-2xl">{icon}</span><span className="block mt-1 font-semibold">{label}</span></button>);
+  return (<button onClick={handleClick} className={`flex-1 min-w-[120px] p-4 border rounded-lg text-center transition-all duration-200 ${isSelected ? 'bg-pink-500 text-white border-pink-500 shadow-lg scale-105' : 'bg-white hover:bg-pink-50'}`}><span className="text-2xl">{icon}</span><span className="block mt-1 font-semibold">{label}</span></button>);
 };
 
-// --- PÁGINA PRINCIPAL ---
 export default function RoutineBuilderPage() {
   const [skinType, setSkinType] = useState('');
   const [skinConcern, setSkinConcern] = useState('');
   const [experience, setExperience] = useState('');
-  const [resultState, setResultState] = useState('initial'); // 'initial', 'found', 'not_found'
+  const [resultState, setResultState] = useState('initial');
   const [routine, setRoutine] = useState(null);
 
   const handleGenerateRoutine = () => {
@@ -167,9 +165,9 @@ export default function RoutineBuilderPage() {
       <div className="max-w-2xl mx-auto my-8 p-6 md:p-8 bg-white rounded-lg shadow-lg">
         <div className="text-center mb-10"><h1 className="text-3xl md:text-4xl font-extrabold text-gray-800">Build Your Perfect Skincare Routine</h1><p className="mt-2 text-lg text-gray-600">Get a personalized AM & PM routine in 30 seconds.</p></div>
         <div className="space-y-8">
-          <div><label className="block text-lg font-semibold text-gray-700 mb-3 text-center">1. What is your skin type?</label><div className="flex flex-wrap gap-2 md:gap-4"><OptionCard value="oily" label="Oily" icon="💧" selectedValue={skinType} onClick={setSkinType} /><OptionCard value="dry" label="Dry" icon="🏜️" selectedValue={skinType} onClick={setSkinType} /><OptionCard value="combination" label="Combination" icon="☯️" selectedValue={skinType} onClick={setSkinType} /><OptionCard value="sensitive" label="Sensitive" icon="🌿" selectedValue={skinType} onClick={setSkinType} /></div></div>
-          <div><label className="block text-lg font-semibold text-gray-700 mb-3 text-center">2. What is your main skin concern?</label><div className="flex flex-wrap gap-2 md:gap-4"><OptionCard value="acne" label="Acne" icon="🌋" selectedValue={skinConcern} onClick={setSkinConcern} /><OptionCard value="anti-aging" label="Anti-Aging" icon="⏳" selectedValue={skinConcern} onClick={setSkinConcern} /><OptionCard value="hyperpigmentation" label="Dark Spots" icon="✨" selectedValue={skinConcern} onClick={setSkinConcern} /><OptionCard value="hydration" label="Hydration" icon="💧" selectedValue={skinConcern} onClick={setSkinConcern} /></div></div>
-          <div><label className="block text-lg font-semibold text-gray-700 mb-3 text-center">3. What's your experience level?</label><div className="flex flex-wrap gap-2 md:gap-4 justify-center"><OptionCard value="beginner" label="Beginner" icon="🌱" selectedValue={experience} onClick={setExperience} /><OptionCard value="intermediate" label="Intermediate" icon="🧑‍🎓" selectedValue={experience} onClick={setExperience} /><OptionCard value="advanced" label="Advanced" icon="👩‍🔬" selectedValue={experience} onClick={setExperience} /></div></div>
+          <div><label className="block text-lg font-semibold text-gray-700 mb-3 text-center">1. What is your skin type?</label><div className="flex flex-wrap justify-center gap-2 md:gap-4"><OptionCard value="oily" label="Oily" icon="💧" selectedValue={skinType} onClick={setSkinType} /><OptionCard value="dry" label="Dry" icon="🏜️" selectedValue={skinType} onClick={setSkinType} /><OptionCard value="combination" label="Combination" icon="☯️" selectedValue={skinType} onClick={setSkinType} /><OptionCard value="sensitive" label="Sensitive" icon="🌿" selectedValue={skinType} onClick={setSkinType} /></div></div>
+          <div><label className="block text-lg font-semibold text-gray-700 mb-3 text-center">2. What is your main skin concern?</label><div className="flex flex-wrap justify-center gap-2 md:gap-4"><OptionCard value="acne" label="Acne" icon="🌋" selectedValue={skinConcern} onClick={setSkinConcern} /><OptionCard value="anti-aging" label="Anti-Aging" icon="⏳" selectedValue={skinConcern} onClick={setSkinConcern} /><OptionCard value="hyperpigmentation" label="Dark Spots" icon="✨" selectedValue={skinConcern} onClick={setSkinConcern} /><OptionCard value="hydration" label="Hydration" icon="💧" selectedValue={skinConcern} onClick={setSkinConcern} /></div></div>
+          <div><label className="block text-lg font-semibold text-gray-700 mb-3 text-center">3. What's your experience level?</label><div className="flex flex-wrap justify-center gap-2 md:gap-4"><OptionCard value="beginner" label="Beginner" icon="🌱" selectedValue={experience} onClick={setExperience} /><OptionCard value="intermediate" label="Intermediate" icon="🧑‍🎓" selectedValue={experience} onClick={setExperience} /><OptionCard value="advanced" label="Advanced" icon="👩‍🔬" selectedValue={experience} onClick={setExperience} /></div></div>
           <div className="text-center pt-6"><button onClick={handleGenerateRoutine} className="bg-pink-600 text-white font-bold py-3 px-10 rounded-full hover:bg-pink-700 transition-all duration-300 transform hover:scale-105 text-xl">Generate My Routine</button></div>
         </div>
         <div id="results-section" className="mt-12 min-h-[200px]">

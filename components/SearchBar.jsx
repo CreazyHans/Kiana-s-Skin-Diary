@@ -15,10 +15,10 @@ export default function SearchBar() {
     <form
   onSubmit={handleSubmit}
   className="
-    flex items-center w-full
+    flex items-center w-full max-w-full
     bg-white/70 backdrop-blur-md
     rounded-full shadow-md border border-gray-200
-    px-3 py-2
+    px-2 py-2
     gap-2
     transition-shadow duration-300
     hover:shadow-lg
@@ -26,7 +26,7 @@ export default function SearchBar() {
   "
 >
   {/* Icono de lupa */}
-  <FiSearch className="text-gray-400 text-lg" />
+  <FiSearch className="text-gray-400 text-lg flex-shrink-0" />
 
   {/* Input */}
   <input
@@ -35,7 +35,8 @@ export default function SearchBar() {
     value={query}
     onChange={(e) => setQuery(e.target.value)}
     className="
-      flex-grow
+      flex-1
+      min-w-0
       bg-transparent
       text-gray-800
       placeholder-gray-400
@@ -61,6 +62,7 @@ export default function SearchBar() {
     Search
   </button>
 </form>
+
 
   );
 }
