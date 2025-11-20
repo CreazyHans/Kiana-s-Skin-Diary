@@ -78,26 +78,23 @@ export default function Layout({ children, pageTitle, description }) {
 
     {/* Desktop links + search */}
     <div className="hidden md:flex items-center space-x-8">
-      <nav className="flex items-center gap-3 font-medium list-none">
-        {navLinks.map((link, idx) => (
-          <Link key={idx} href={link.href}>
-            <a
-              className="
-                px-4 py-2 rounded-full
-                bg-white/60 backdrop-blur-sm
-                border border-gray-200
-                shadow-sm
-                text-gray-700
-                hover:bg-green-500 hover:text-white hover:border-green-500
-                transition-all duration-300
-              "
-            >
-              {link.name}
-            </a>
-          </Link>
-        ))}
-      </nav>
-
+  <nav className="flex items-center space-x-4 font-medium list-none 
+                  flex-wrap flex-shrink max-w-full">
+    {navLinks.map((link, idx) => (
+      <Link key={idx} href={link.href}>
+        <a
+          className="
+            relative px-3 py-1 rounded-xl
+            text-gray-700 font-medium
+            hover:text-white hover:bg-green-600
+            transition-all duration-300
+          "
+        >
+          {link.name}
+        </a>
+      </Link>
+    ))}
+  </nav>
       <div className="w-[300px]">
         <SearchBar />
       </div>
