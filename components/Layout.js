@@ -27,7 +27,7 @@ export default function Layout({ children, pageTitle, description }) {
     { name: 'Home', href: '/' },
     { name: 'About Kiana', href: '/blog' },
     { name: 'Products', href: '/products' },
-    { name: "Kiana's Tools", href: '/tools/routine-builder' },
+    { name: "Kiana's Tools", href: '/tools/' },
     { name: 'Contact', href: '/contacto' },
   ];
 
