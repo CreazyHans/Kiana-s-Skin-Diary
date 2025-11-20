@@ -3,14 +3,31 @@
 import Layout from '../../components/Layout';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image'; // <-- ¡IMPORTANTE! Importamos Image
 
-const ToolCard = ({ href, title, description, icon }) => (
-  <Link href={href} className="block p-6 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300">
-      <div className="text-4xl mb-3">{icon}</div>
-      <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-  </Link>
+// --- NUEVO COMPONENTE PARA LAS TARJETAS CON IMAGEN ---
+const ToolCardWithImage = ({ href, imgSrc, title, description }) => (
+  <div className="bg-white rounded-lg shadow-md overflow-hidden group transform hover:scale-105 transition-transform duration-300">
+    <Link href={href} className="flex flex-col h-full">
+      <div className="relative h-48 w-full">
+        <Image 
+          src={imgSrc}
+          alt={`${title} tool preview`}
+          fill
+          style={{ objectFit: 'cover' }}
+          className="group-hover:opacity-90 transition-opacity"
+        />
+      </div>
+      <div className="p-6 text-center flex-grow flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
+          <p className="text-gray-600 text-sm">{description}</p>
+        </div>
+      </div>
+    </Link>
+  </div>
 );
+
 
 export default function ToolsPage() {
   return (
@@ -30,25 +47,30 @@ export default function ToolsPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <ToolCard 
+        {/* --- USAMOS EL NUEVO DISEÑO DE TARJETAS CON IMAGEN --- */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <ToolCardWithImage 
             href="/tools/routine-builder"
-            icon="🛠️"
+            imgSrc="/images/tool-routine-builder.png"
             title="Routine Builder"
-            description="Get a personalized AM & PM skincare routine in 30 seconds based on your skin type and concerns."
+            description="Get a personalized AM & PM routine in just 30 seconds."
           />
-          <ToolCard 
+          
+          <ToolCardWithImage 
             href="/tools/skin-type-quiz"
-            icon="🧪"
+            imgSrc="/images/tool-skin-type-quiz.png"
             title="Skin Type Quiz"
-            description="Not sure if you're oily, dry, or combination? Answer 4 simple questions to discover your true skin type."
+            description="Answer 4 simple questions to discover your true skin type."
           />
-          <ToolCard 
+
+          <ToolCardWithImage 
             href="/tools/ingredient-checker"
-            icon="🔬"
+            imgSrc="/images/tool-ingredient-checker.png"
             title="Ingredient Checker"
-            description="Paste any ingredient list and we'll instantly highlight the good and potentially irritating ingredients for you."
+            description="Instantly analyze any skincare ingredient list."
           />
+          
         </div>
       </div>
     </Layout>
