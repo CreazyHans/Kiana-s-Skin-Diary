@@ -1,57 +1,74 @@
-// /pages/tools/index.js
+// /pages/index.js
 
-import Layout from '../../components/Layout';
-import Head from 'next/head';
-import Link from 'next/link';
+import Layout from '../components/Layout';
+import PostCard from '../components/PostCard';
+import { getCategoriesWithPosts } from '../lib/contentful';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import Link from 'next/link'; // Asegúrate de que Link esté importado
 
-const ToolCard = ({ href, title, description, icon }) => (
-  <Link href={href} className="block p-6 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300">
-      <div className="text-4xl mb-3">{icon}</div>
-      <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-  </Link>
-);
-
-export default function ToolsPage() {
+export default function HomePage({ categoriesWithPosts }) {
   return (
     <Layout>
-      <Head>
-        <title>Kiana's Tools | Kiana's Skin Diary</title>
-        <meta name="description" content="Discover our collection of interactive skincare tools, including the Routine Builder and Skin Type Quiz, to help you achieve your best skin." />
-      </Head>
+      <section className="text-center py-16 px-4 bg-pink-50 rounded-lg shadow-inner">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800">
+          Welcome to <span className="text-green-600">Kiana's Skin Diary</span>
+        </h1>
+        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+          Explore skincare topics based on science. Find the perfect routine and products for your skin type.
+        </p>
+      </section>
 
-      <div className="max-w-4xl mx-auto my-8 px-4">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800">
-            Kiana's Tools
-          </h1>
-          <p className="mt-3 text-lg text-gray-600">
-            Interactive tools to help you build a smarter skincare routine.
+      {/* --- INICIO DE LA NUEVA SECCIÓN DE HERRAMIENTAS --- */}
+      <section className="my-16">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center transform hover:scale-[1.02] transition-transform duration-300">
+          <h2 className="text-3xl font-extrabold text-gray-800">
+            Discover Our Interactive Skincare Tools
+          </h2>
+          <p className="mt-3 text-lg text-gray-600 max-w-xl mx-auto">
+            Go beyond the articles. Use our free tools to get personalized advice and build a smarter routine in seconds.
           </p>
+          <div className="mt-8">
+            <Link href="/tools" className="inline-block bg-pink-600 text-white font-bold py-3 px-10 rounded-full hover:bg-pink-700 transition-all duration-300 text-xl shadow-md">
+                Explore Kiana's Tools
+            </Link>
+          </div>
         </div>
+      </section>
+      {/* --- FIN DE LA NUEVA SECCIÓN DE HERRAMIENTAS --- */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <ToolCard 
-            href="/tools/routine-builder"
-            icon="🛠️"
-            title="Routine Builder"
-            description="Get a personalized AM & PM skincare routine in 30 seconds based on your skin type and concerns."
-          />
-          <ToolCard 
-            href="/tools/skin-type-quiz"
-            icon="🧪"
-            title="Skin Type Quiz"
-            description="Not sure if you're oily, dry, or combination? Answer 4 simple questions to discover your true skin type."
-          />
-          {/* Aquí podremos añadir la tercera herramienta en el futuro */}
-          <ToolCard 
-            href="/tools/ingredient-checker"
-            icon="🔬"
-            title="Ingredient Checker"
-            description="Paste any ingredient list and we'll instantly highlight the good and potentially irritating ingredients for you."
-          />
-        </div>
+      <div className="space-y-16">
+        {categoriesWithPosts.map((category, categoryIndex) => (
+          <section key={category.slug}>
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800">{category.name}</h2>
+              {category.description && (
+                <div className="mt-2 text-gray-600 max-w-2xl mx-auto prose">
+                  {documentToReactComponents(category.description)}
+                </div>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {category.posts.map((post, postIndex) => (
+                <PostCard
+                  key={post.slug}
+                  post={post}
+                  isPriority={categoryIndex === 0 && postIndex === 0}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const categoriesWithPosts = await getCategoriesWithPosts();
+  return {
+    props: {
+      categoriesWithPosts,
+    },
+    revalidate: 60,
+  };
 }
