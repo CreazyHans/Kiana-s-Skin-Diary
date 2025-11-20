@@ -22,7 +22,7 @@ export default function AboutUsPage() {
         
         <div className="mt-8 text-lg text-gray-700 space-y-4 prose prose-lg max-w-none">
           <p>
-            We're not a single person. We are a passionate team of skincare enthusiasts, researchers, and writers dedicated to one simple mission: **cutting through the noise in the beauty industry.**
+            We're not a single person. We are a passionate team of skincare enthusiasts, researchers, and writers dedicated to one simple mission: cutting through the noise in the beauty industry.
           </p>
           <p>
             The world of skincare can be overwhelming. It's filled with confusing marketing, "miracle" ingredients that don't work, and complicated routines that are impossible to follow. We were tired of it, and we knew there had to be a better way.
@@ -47,7 +47,7 @@ export default function AboutUsPage() {
           <p className="font-semibold text-center text-xl mt-6">
             Thank you for being here.
             <br />
-            <em>— The Team at Kiana's Skin Diary</em>
+            <em>The Team at Kiana's Skin Diary</em>
           </p>
         </div>
       </div>

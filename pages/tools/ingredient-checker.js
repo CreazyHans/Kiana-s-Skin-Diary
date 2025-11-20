@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Layout from '../../components/Layout';
 import Head from 'next/head';
 
-// --- NUESTRA "BASE DE DATOS" DE INGREDIENTES ---
+// --- Las "bases de datos" de ingredientes no cambian ---
 const goodIngredients = [
   'niacinamide', 'hyaluronic acid', 'sodium hyaluronate', 'ceramide', 'retinol', 'retinal', 'retinaldehyde',
   'vitamin c', 'ascorbic acid', 'peptide', 'glycerin', 'panthenol', 'squalane',
@@ -19,19 +19,16 @@ const badIngredients = [
 export default function IngredientCheckerPage() {
   const [inputText, setInputText] = useState('');
 
-  // 'useMemo' es un hook de optimización. Solo recalcula el resultado si el texto de entrada cambia.
   const processedText = useMemo(() => {
     if (!inputText) return null;
 
-    // Convertimos las listas a un formato más eficiente para la búsqueda
     const goodRegex = new RegExp(`\\b(${goodIngredients.join('|')})\\b`, 'gi');
     const badRegex = new RegExp(`\\b(${badIngredients.join('|')})\\b`, 'gi');
 
-    // Escapamos caracteres especiales de HTML y luego reemplazamos las palabras clave
     return inputText
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(goodRegex, match => `<span class="bg-green-100 text-green-800 font-bold px-1 rounded">${match}</span>`)
-      .replace(badRegex, match => `<span class="bg-red-100 text-red-800 font-bold px-1 rounded">${match}</span>`);
+      .replace(goodRegex, match => `<mark class="bg-green-200 text-green-900 px-1 rounded">${match}</mark>`)
+      .replace(badRegex, match => `<mark class="bg-red-200 text-red-900 px-1 rounded">${match}</mark>`);
       
   }, [inputText]);
 
@@ -42,46 +39,48 @@ export default function IngredientCheckerPage() {
         <meta name="description" content="Analyze any skincare ingredient list. Our tool instantly highlights the good and potentially irritating ingredients to help you shop smarter." />
       </Head>
 
-      <div className="max-w-2xl mx-auto my-8 p-8 bg-white rounded-lg shadow-lg">
-        <div className="text-center mb-8">
+      <div className="max-w-4xl mx-auto my-8">
+        <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800">
             Skincare Ingredient Checker
           </h1>
           <p className="mt-2 text-lg text-gray-600">
-            Paste an ingredient list below to instantly analyze it.
+            Decode your skincare labels instantly.
           </p>
         </div>
 
-        {/* --- CAMPO DE TEXTO --- */}
-        <textarea
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          className="w-full h-48 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
-          placeholder="e.g., Aqua, Glycerin, Niacinamide, Alcohol Denat., ..."
-        />
-
-        {/* --- LEYENDA DE COLORES --- */}
-        <div className="flex justify-center space-x-6 my-6 text-sm">
-          <div className="flex items-center">
-            <span className="w-4 h-4 rounded-full bg-green-100 border border-green-300 mr-2"></span>
-            <span>Beneficial Ingredients</span>
+        {/* --- NUEVA ESTRUCTURA DE 2 COLUMNAS --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
+          
+          {/* --- Columna Izquierda: Entrada de Texto --- */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-700">Paste your ingredient list here:</h2>
+            <textarea
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              className="w-full h-80 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
+              placeholder="e.g., Aqua, Glycerin, Niacinamide, Alcohol Denat., ..."
+            />
+            <div className="flex justify-start space-x-6 text-sm">
+              <div className="flex items-center"><span className="w-4 h-4 rounded-full bg-green-700 mr-2"></span><span>Beneficial</span></div>
+              <div className="flex items-center"><span className="w-4 h-4 rounded-full bg-red-700 mr-2"></span><span>Potentially Irritating</span></div>
+            </div>
           </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 rounded-full bg-red-100 border border-red-300 mr-2"></span>
-            <span>Potentially Irritating</span>
+
+          {/* --- Columna Derecha: Resultados --- */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-700">Analysis Result:</h2>
+            <div className="w-full h-80 p-4 border bg-gray-50 rounded-lg overflow-y-auto prose max-w-none break-words">
+              {processedText ? (
+                <p dangerouslySetInnerHTML={{ __html: processedText }} />
+              ) : (
+                <div className="flex items-center justify-center h-full text-center text-gray-400">
+                  <p>Your analysis will appear here.<br/>Start by pasting an ingredient list on the left.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* --- ZONA DE RESULTADOS --- */}
-        {processedText && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Analysis Result</h2>
-            <div
-              className="p-4 border bg-gray-50 rounded-lg prose max-w-none break-words"
-              dangerouslySetInnerHTML={{ __html: processedText }}
-            />
-          </div>
-        )}
       </div>
     </Layout>
   );
