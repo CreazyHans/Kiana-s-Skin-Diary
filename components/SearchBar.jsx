@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { FiSearch } from "react-icons/fi"; // Icono de lupa
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -7,27 +8,54 @@ export default function SearchBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
-    window.location.href = `/search?query=${query}`;
+    window.location.href = `/search?query=${encodeURIComponent(query)}`;
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full max-w-[420px] bg-white rounded-full border px-3 py-1 shadow-sm"
+      className="
+        relative flex items-center w-full max-w-[420px] 
+        bg-white/70 backdrop-blur-md
+        rounded-full shadow-md
+        border border-gray-200
+        px-4 py-2
+        transition-shadow duration-300
+        hover:shadow-lg
+        focus-within:shadow-xl
+      "
     >
-    <input
-  type="text"
-  className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm 
-            focus:outline-none focus:ring-2 focus:ring-green-500"
-  placeholder="Search..."
-  value={query}
-  onChange={(e) => setQuery(e.target.value)}
-/>
+      {/* Icono de lupa */}
+      <FiSearch className="absolute left-4 text-gray-400 text-lg pointer-events-none" />
 
+      {/* Input */}
+      <input
+        type="text"
+        placeholder="Search..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="
+          flex-1 pl-10 pr-4 py-2
+          bg-transparent
+          text-gray-800
+          placeholder-gray-400
+          focus:outline-none
+          text-sm
+        "
+      />
 
+      {/* Botón */}
       <button
         type="submit"
-        className="ml-2 px-4 py-1 rounded-full bg-green-500 text-white text-sm"
+        className="
+          ml-2 px-4 py-1.5
+          rounded-full
+          bg-green-600
+          text-white
+          text-sm font-medium
+          hover:bg-green-700
+          transition-colors
+        "
       >
         Search
       </button>
