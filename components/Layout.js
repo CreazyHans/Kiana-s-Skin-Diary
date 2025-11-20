@@ -8,6 +8,7 @@ import Script from 'next/script';
 import CookieBanner from './CookieBanner';
 import { useRouter } from 'next/router';
 import SearchBar from './SearchBar';
+import { FaFacebook, FaYoutube } from 'react-icons/fa';
 
 export default function Layout({ children, pageTitle, description }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -160,6 +161,15 @@ export default function Layout({ children, pageTitle, description }) {
           <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm space-y-4 md:space-y-0">
             <p>© {new Date().getFullYear()} Kiana's Skin Diary. All rights reserved.</p>
             <div className="flex space-x-4">
+              {/* --- SECCIÓN DE ICONOS SOCIALES --- */}
+      <div className="flex items-center space-x-6">
+        <a href="http://www.youtube.com/@KianasSkinDiary" target="_blank" rel="noopener noreferrer" aria-label="Kiana's Skin Diary on YouTube" className="text-gray-500 hover:text-red-600 transition-colors">
+          <FaYoutube size={24} />
+        </a>
+        <a href="https://www.facebook.com/share/1H6e8YY48n/" target="_blank" rel="noopener noreferrer" aria-label="Kiana's Skin Diary on Facebook" className="text-gray-500 hover:text-blue-600 transition-colors">
+          <FaFacebook size={24} />
+        </a>
+      </div>
               <Link href="/privacy-policy"><a className="hover:text-green-600 transition">Privacy Policy</a></Link>
               <Link href="/terms-of-service"><a className="hover:text-green-600 transition">Terms of Service</a></Link>
             </div>

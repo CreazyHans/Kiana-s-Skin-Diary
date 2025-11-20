@@ -44,6 +44,12 @@ export default function ToolsPage() {
             description="Not sure if you're oily, dry, or combination? Answer 4 simple questions to discover your true skin type."
           />
           {/* Aquí podremos añadir la tercera herramienta en el futuro */}
+          <ToolCard 
+            href="/tools/ingredient-checker"
+            icon="🔬"
+            title="Ingredient Checker"
+            description="Paste any ingredient list and we'll instantly highlight the good and potentially irritating ingredients for you."
+          />
         </div>
       </div>
     </Layout>
