@@ -5,9 +5,10 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import Layout from '../../components/Layout';
 import Image from 'next/image';
 import Head from 'next/head';
-
 import { BLOCKS } from '@contentful/rich-text-types';
 
+// 1. Importa el componente CORRECTO que creamos
+import ResponsiveRichTextTable from '../../components/ResponsiveRichTextTable';
 
 export default function PostPage({ post }) {
   if (!post) {
@@ -23,10 +24,12 @@ export default function PostPage({ post }) {
 
   const plainExcerpt = getPlainText(post.excerpt);
 
+  // 2. Usa el componente CORRECTO en las opciones de renderizado
   const renderOptions = {
     renderNode: {
       [BLOCKS.TABLE]: (node, children) => (
-        <ResponsiveTable>{children}</ResponsiveTable>
+        // Llama al nuevo componente y pásale el 'node' de Contentful
+        <ResponsiveRichTextTable node={node} />
       ),
     },
   };
@@ -34,7 +37,7 @@ export default function PostPage({ post }) {
   return (
     <Layout pageTitle={post.title} description={plainExcerpt}>
       <Head>
-        <title>{post.title} | Kiana's Skin Diary</title>
+        <title>{`${post.title} | Kiana's Skin Diary`}</title>
         <meta name="description" content={plainExcerpt} />
       </Head>
 
@@ -44,7 +47,7 @@ export default function PostPage({ post }) {
         </h1>
 
         {post.date && (
-          <p className="text-gray-500 mb-6">Published on {post.date}</p>
+          <p className="text-gray-500 mb-6">Published on {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
         )}
 
         {post.cover_image && (
@@ -73,7 +76,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
   const post = await getPostData(params.slug); 
   return {
     props: { post },
