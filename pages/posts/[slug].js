@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Head from 'next/head';
 
 import { BLOCKS } from '@contentful/rich-text-types';
-import ResponsiveTable from '../../components/ResponsiveTable';
+
 
 export default function PostPage({ post }) {
   if (!post) {
