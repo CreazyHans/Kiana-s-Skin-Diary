@@ -1,40 +1,44 @@
 // /components/ResponsiveRichTextTable.js
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import useIsMobile from './hooks/useIsMobile'; // <-- 1. Importa el nuevo hook
 
 export default function ResponsiveRichTextTable({ node }) {
-  // Extraemos las cabeceras (la primera fila)
-  const headers = node.content[0].content.map(headerCell => {
-    // Extraemos el texto de la cabecera. El contenido de una celda es un párrafo.
-    return headerCell.content[0].content[0].value;
-  });
+  const isMobile = useIsMobile(); // <-- 2. Llama al hook
 
-  // Extraemos las filas del cuerpo (todas las filas menos la primera)
+  // --- 3. Lógica de renderizado inteligente ---
+  // Mientras isMobile es 'null', no mostramos nada para evitar el flash.
+  // El servidor renderizará 'null', y el cliente decidirá qué mostrar.
+  if (isMobile === null) {
+    return null; 
+  }
+
+  // Extraemos las cabeceras y las filas
+  const headers = node.content[0].content.map(headerCell => headerCell.content[0].content[0].value);
   const bodyRows = node.content.slice(1);
-  const numColumns = headers.length;
 
-  return (
-    <div className="my-8 font-sans">
-      {/* --- VISTA MÓVIL (Por Defecto) --- */}
-      <div className="md:hidden space-y-4">
-        {bodyRows.map((row, rowIndex) => (
-          <div key={rowIndex} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
-            <div className="space-y-3">
-              {row.content.map((cell, cellIndex) => (
-                <div key={cellIndex}>
-                  <p className="font-semibold text-sm text-gray-800">{headers[cellIndex]}</p>
-                  <div className="text-gray-600 text-sm mt-1 prose prose-sm max-w-none">
-                    {/* Renderizamos el contenido de la celda */}
-                    {documentToReactComponents(cell)}
-                  </div>
+  // Si es móvil, muestra la vista de tarjetas. Si no, la de escritorio.
+  return isMobile ? (
+    // --- VISTA MÓVIL (Renderizado Condicional) ---
+    <div className="my-8 font-sans space-y-4">
+      {bodyRows.map((row, rowIndex) => (
+        <div key={rowIndex} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+          <div className="space-y-3">
+            {row.content.map((cell, cellIndex) => (
+              <div key={cellIndex}>
+                <p className="font-semibold text-sm text-gray-800">{headers[cellIndex]}</p>
+                <div className="text-gray-600 text-sm mt-1 prose prose-sm max-w-none">
+                  {documentToReactComponents(cell)}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      {/* --- VISTA DE ESCRITORIO (md y superior) --- */}
-      <div className="hidden md:block border border-gray-200 rounded-lg overflow-hidden">
+        </div>
+      ))}
+    </div>
+  ) : (
+    // --- VISTA DE ESCRITORIO (Renderizado Condicional) ---
+    <div className="my-8 font-sans">
+      <div className="border border-gray-200 rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
